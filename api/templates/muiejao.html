@@ -14,10 +14,12 @@
             height: 100vh;
             background-color: #ffccdc;
             font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
         }
         img {
-            max-width: 600px;
-            max-height: 600px;
+            max-width: 90%;
+            max-height: 50vh;
             border-radius: 15px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
@@ -28,8 +30,8 @@
         }
         button {
             margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 12px 24px;
+            font-size: 18px;
             border: none;
             background-color: #ff4d6d;
             color: white;
@@ -39,6 +41,15 @@
         }
         button:hover {
             background-color: #ff1e50;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 20px;
+            }
+            button {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
