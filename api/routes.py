@@ -8,11 +8,11 @@ print(f"Diretório de GIFs esperado: {GIF_FOLDER}")  # Debug
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    return render_template("muieskis.html")
 
 @app.route('/luana')
 def about():
-    return render_template("teste.html")
+    return render_template("muiejao.html")
 
 @app.route("/get_gifs")
 def get_gifs():

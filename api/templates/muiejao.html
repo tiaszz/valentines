@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='amar.png') }}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffccdc;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            max-width: 600px;
+            max-height: 600px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .button-container {
+            display: flex;
+            gap: 20px; /* Espaçamento entre os botões */
+            margin-top: 20px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #ff4d6d;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #ff1e50;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="text">Do you wanna be my valentine?</h1>
+    <img id="gif" src="/static/gifs/detective-kiss.gif" alt="Surpresa Romântica">
+    <div>
+        <button onclick="mostrarGifEspecifico()">Sim</button>
+        <button onclick="trocarGif()">Não</button>
+    </div>
+    
+    <script>
+        let gifs = [];
+        let currentGifIndex = 0; // Índice do GIF atual
+
+        const gifsIgnorados = [6, 5];
+        let textChanges = ["Are you sure?", "Are you really really sure?", "Are you denying me?", "Are you REALLY gonna miss your chance?"];
+        let indexForText = 0;
+
+        async function carregarGifs() {
+            const response = await fetch("/get_gifs");
+            gifs = await response.json();
+        }
+
+        // Função para trocar o GIF em ordem
+        function trocarGif() {
+            if (gifs.length > 0) {
+                let novoIndice = currentGifIndex;
+
+                do {
+                    novoIndice = (novoIndice + 1) % gifs.length;
+                } while (gifsIgnorados.includes(novoIndice)); // Garante que não exiba GIFs proibidos
+
+                currentGifIndex = novoIndice;
+                document.getElementById("gif").src = gifs[currentGifIndex];
+                document.getElementById("text").innerText = textChanges[currentGifIndex % textChanges.length];
+            }
+        }
+
+        function mostrarGifEspecifico() {
+            if (gifs.length > 0) {
+                // Vamos mostrar o primeiro GIF da lista, mas pode ser personalizado
+                document.getElementById("gif").src = gifs[5]; 
+                document.getElementById("text").innerText = "NOW YOU ARE MY VALENTINE❤"
+            }
+        }
+
+        // Carregar os GIFs assim que a página carregar
+        window.onload = carregarGifs;
+    </script>
+</body>
+</html>
+

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valentine's</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='amar.png') }}">
     <style>
         body {
             display: flex;
@@ -42,7 +43,7 @@
     </style>
 </head>
 <body>
-    <h1>Do you wanna be my valentine?</h1>
+    <h1 id="text">Do you wanna be my valentine?</h1>
     <img id="gif" src="/static/gifs/detective-kiss.gif" alt="Surpresa Romântica">
     <div>
         <button onclick="mostrarGifEspecifico()">Sim</button>
@@ -53,6 +54,10 @@
         let gifs = [];
         let currentGifIndex = 0; // Índice do GIF atual
 
+        const gifsIgnorados = [4, 5];
+        let textChanges = ["Are you sure?", "Are you really really sure?", "Are you denying me?", "Are you REALLY gonna miss your chance?"];
+        let indexForText = 0;
+
         async function carregarGifs() {
             const response = await fetch("/get_gifs");
             gifs = await response.json();
@@ -61,15 +66,23 @@
         // Função para trocar o GIF em ordem
         function trocarGif() {
             if (gifs.length > 0) {
-                currentGifIndex = (currentGifIndex + 1) % gifs.length; // Garantir que o índice reinicie
+                let novoIndice = currentGifIndex;
+
+                do {
+                    novoIndice = (novoIndice + 1) % gifs.length;
+                } while (gifsIgnorados.includes(novoIndice)); // Garante que não exiba GIFs proibidos
+
+                currentGifIndex = novoIndice;
                 document.getElementById("gif").src = gifs[currentGifIndex];
-                
+                document.getElementById("text").innerText = textChanges[currentGifIndex % textChanges.length];
             }
         }
+
         function mostrarGifEspecifico() {
             if (gifs.length > 0) {
                 // Vamos mostrar o primeiro GIF da lista, mas pode ser personalizado
-                document.getElementById("gif").src = gifs[4]; 
+                document.getElementById("gif").src = gifs[5]; 
+                document.getElementById("text").innerText = "NOW YOU ARE MY VALENTINE❤"
             }
         }
 
