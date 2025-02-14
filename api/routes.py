@@ -21,6 +21,5 @@ def get_gifs():
         print("ERRO: Pasta não encontrada!")
         return jsonify({"error": "Pasta de GIFs não encontrada"}), 500
 
-    print(f"Arquivos encontrados: {os.listdir(GIF_FOLDER)}")  # Debug
-    gifs = [f"/static/gifs/{gif}" for gif in os.listdir(GIF_FOLDER) if gif.endswith(".gif")]
+    gifs = sorted([f"/static/gifs/{gif}" for gif in os.listdir(GIF_FOLDER) if gif.endswith(".gif")])
     return jsonify(gifs)
